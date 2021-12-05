@@ -39,10 +39,10 @@ for inputNum in calledNums
     end
 end
 
-# determine the answer
+# determine the answer for part 1
 result = winnum[1]*winval[1]
 println("#1 result = ", result)
 
-# determine the answer
+# determine the answer for part 2
 result = winnum[end]*winval[end]
 println("#2 result = ", result)
