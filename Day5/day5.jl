@@ -3,6 +3,7 @@ inputs = replace(inputs,'\r'=>"")  # Sanitize inputs
 inputs = split.(inputs,'\n') # Split by line
 inputs = split.(inputs,"->") # Split into start and end coordinates
 
+# find the starting and ending coordinates of the vents
 startCoords = [split.(strip.(inputs[i][1]), ',') for i in 1:length(inputs)]
 startCoords = [parse.(Int, startCoords[i]) for i in 1:length(startCoords)]
 startCoords = [(startCoords[i][1], startCoords[i][2]) for i in 1:length(startCoords)]
@@ -10,3 +11,6 @@ startCoords = [(startCoords[i][1], startCoords[i][2]) for i in 1:length(startCoo
 endCoords = [split.(strip.(inputs[i][2]), ',') for i in 1:length(inputs)]
 endCoords = [parse.(Int, endCoords[i]) for i in 1:length(endCoords)]
 endCoords = [(endCoords[i][1], endCoords[i][2]) for i in 1:length(endCoords)]
+
+# Vertical vents
+vertVents = []
