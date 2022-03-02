@@ -89,4 +89,6 @@ end
 
 # Display the number of unique output codes
 println("#1 result = ", count(x-> x in uniqueSequenceLengths, outputCodeLength))
+
+# Display the sum of all corrected seven segment outputs
 println("#2 result = ", summedOutputs)
