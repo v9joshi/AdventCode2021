@@ -49,7 +49,7 @@ function enhance(imageDict, algorithm, pixelVal = false)
 
         # Go through all the adjacent pixels
         for shift in Iterators.product(-1:1:1, -1:1:1)
-            newPixel = pixel .+ reverse(shift)
+            newPixel = pixel .+ reverse(shift) # Product goes in column order, we want row order
 
             # If the adjacent position is in the dict, it must be bright
             binNum = binNum*2
@@ -77,11 +77,11 @@ for _ in 1:(numIter - 1)
 end
 
 # Print the results
-println("#1 result : ", count(x -> x, values(imageDict)))
+println("#1 result : ", sum(values(imageDict)))
 
 numIter2 = 50
 for _ in 1:(numIter2 - numIter)
     global imageDict, outsideVal = enhance(imageDict, algorithm, outsideVal)
 end
 
-println("#2 result : ", count(x -> x, values(imageDict)))
+println("#2 result : ", sum(values(imageDict)))
