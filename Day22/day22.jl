@@ -62,13 +62,13 @@ function turnCubesOff(onCubes, offCubes)
     # Go through every cube that's already on
     for cuboid in onCubes
         # Do these two sets intersect?
-        intX = findIntersection(cuboid[1], offCubes[1])
-        intY = findIntersection(cuboid[2], offCubes[2])
-        intZ = findIntersection(cuboid[3], offCubes[3])
+        intX = findIntersection(cuboid[1], offCubes[1][1])
+        intY = findIntersection(cuboid[2], offCubes[1][2])
+        intZ = findIntersection(cuboid[3], offCubes[1][3])
 
         # If they intersect, find the non-intersecting regions
         if !isempty(intX) && !isempty(intY) && !isempty(intZ)
-            println(cuboid," intersects ", offCubes, " at ", [intX, intY, intZ])
+            # println(cuboid," intersects ", offCubes, " at ", [intX, intY, intZ])
 
             diffX = findDiff(cuboid[1], intX)
             diffY = findDiff(cuboid[2], intY)
@@ -78,17 +78,17 @@ function turnCubesOff(onCubes, offCubes)
 
             # Add the non-intersection regions to the cube set
             for xBlock in diffX
-                println([xBlock, cuboid[2], cuboid[3]])
+                # println([xBlock, cuboid[2], cuboid[3]])
                 push!(resultCubes, [xBlock, cuboid[2], cuboid[3]])
             end
 
             for yBlock in diffY
-                println([intX, yBlock, cuboid[3]])
+                # println([intX, yBlock, cuboid[3]])
                 push!(resultCubes, [intX, yBlock, cuboid[3]])
             end
 
             for zBlock in diffZ
-                println([intX, intY, zBlock])
+                # println([intX, intY, zBlock])
                 push!(resultCubes, [intX, intY, zBlock])
             end
 
@@ -107,34 +107,36 @@ end
 # Turn some cubes on
 function turnCubesOn(onCubes, newCubes)
     println("Turning cubes on at: ", newCubes)
-    # Make a new set of cubes
-    resultCubes = []
+
+    # Make a new set of cubes to store all the intersections
+    intersectionCubes = []
 
     # Iterate through all the cubes that are already on
     for cuboid in onCubes
         # Find where these cubes intersect with the new set
-        intX = findIntersection(x, cuboid[1])
-        intY = findIntersection(y, cuboid[2])
-        intZ = findIntersection(z, cuboid[3])
+        intX = findIntersection(newCubes[1][1], cuboid[1])
+        intY = findIntersection(newCubes[1][2], cuboid[2])
+        intZ = findIntersection(newCubes[1][3], cuboid[3])
 
         if !isempty(intX) && !isempty(intY) && !isempty(intZ)
             # If there are any intersections, turn those cubes off
-            println(cuboid, " intersects at ", [intX, intY, intZ])
-            returnedCubes = turnCubesOff([cuboid], [intX, intY, intZ])
-
-            for cube in returnedCubes
-                push!(resultCubes, cube)
-            end
-        else
-            push!(resultCubes, cuboid)
+            # println(cuboid, " intersects at ", [intX, intY, intZ])
+            push!(intersectionCubes, [intX, intY, intZ])
         end
     end
 
+    # println("intersection cubes= ", intersectionCubes)
+
+    # Now turn all the intersections off
+    for cube in intersectionCubes
+        newCubes = turnCubesOff(newCubes, [cube])
+    end
+
     # Add the new cube to the results
-    push!(resultCubes, newCubes)
+    onCubes = vcat(onCubes, newCubes)
 
     # println("Result of on Step: ", resultCubes)
-    return resultCubes
+    return onCubes
 end
 
 # Now to act on these inputs for initializtion
@@ -165,9 +167,9 @@ for inputLine in inputs
     if isempty(onCubes) && action == "on"
         push!(onCubes, [x,y,z])
     elseif action == "on"
-        global onCubes = turnCubesOn(onCubes, [x,y,z])
+        global onCubes = turnCubesOn(onCubes, [[x,y,z]])
     elseif action == "off"
-        global onCubes = turnCubesOff(onCubes, [x,y,z])
+        global onCubes = turnCubesOff(onCubes, [[x,y,z]])
     end
 end
 
