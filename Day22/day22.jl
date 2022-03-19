@@ -1,5 +1,5 @@
 # Memory trickery for the most part
-inputs = read("C:\\Users\\varunjos\\Documents\\GitHub\\AdventCode2021\\Day22\\test_input.txt", String) # Read all the inputs
+inputs = read("C:\\Users\\varunjos\\Documents\\GitHub\\AdventCode2021\\Day22\\input.txt", String) # Read all the inputs
 inputs = replace(inputs,'\r'=>"")                   # Sanitize inputs
 inputs = split(inputs,"\n")
 
@@ -106,7 +106,7 @@ end
 
 # Turn some cubes on
 function turnCubesOn(onCubes, newCubes)
-    println("Turning cubes on at: ", newCubes)
+    # println("Turning cubes on at: ", newCubes)
 
     # Make a new set of cubes to store all the intersections
     intersectionCubes = []
@@ -142,9 +142,9 @@ end
 # Now to act on these inputs for initializtion
 onCubes = []
 legalPoints = -50:50 #Inf
-limiter = true
+limiter = false
 for inputLine in inputs
-    println(inputLine)
+    # println(inputLine)
     action, locationString = split(inputLine," ")
     locationString = replace(locationString,".." => ':')
     locationString = split(locationString,',')
@@ -177,7 +177,7 @@ end
 totalOnCubes = 0
 for cubeSet in onCubes
     currOnCubes = length(cubeSet[1])*length(cubeSet[2])*length(cubeSet[3])
-    println(cubeSet, " contains ", currOnCubes)
+    # println(cubeSet, " contains ", currOnCubes)
     global totalOnCubes += currOnCubes
 end
 
